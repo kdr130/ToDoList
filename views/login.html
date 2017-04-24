@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+
+{% block header %}<h1>登入</h1>{% endblock %}
+
+{% block content %}
+    <form action="/user/login" method="post">
+        <div class="input-group input-group-lg">
+            <input name="username" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
+            <br>
+            <input name="password" class="form-control" type= "password" placeholder="Password" aria-describedby="sizing-addon1">
+        </div>
+        <br>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+{% endblock%}

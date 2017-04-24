@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var todoRouter = require('./routes/todo.js');
+var userRouter = require('./routes/user.js');
 var bodyParser = require( 'body-parser' );
 var nunjucks  = require('nunjucks');
 //var dataset=require('./recordset.js');  //資料集...方便測試View流程使用
@@ -20,14 +21,15 @@ app.set("views",__dirname+"/views")
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text());
 
-app.get('/', function(req, res) {
-    res.redirect('/restful/todo');
-});
+//app.get('/', function(req, res) {
+//    res.redirect('/restful/todo');
+//});
 
 // Apply this router on (/restful)
 app.use('/restful', todoRouter);
-app.use('/restful',express.static(__dirname+'/public'));
+app.use('/restful', express.static(__dirname+'/public'));
 
+app.use('/user', userRouter);
 
 app.set('port', (process.env.PORT || 5000));
 app.listen(app.get('port'), function() {
