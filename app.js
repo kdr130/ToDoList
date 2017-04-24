@@ -2,10 +2,16 @@ var express = require('express');
 var app = express();
 var todoRouter = require('./routes/todo.js');
 var bodyParser = require( 'body-parser' );
-
+var nunjucks  = require('nunjucks');
 //var dataset=require('./recordset.js');  //資料集...方便測試View流程使用
+
 //set view engine
-app.set("view engine","jade")
+nunjucks.configure('views', {
+  autoescape: true,
+  express   : app
+});
+
+
 //set view directory
 app.set("views",__dirname+"/views")
 

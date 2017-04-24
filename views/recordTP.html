@@ -1,0 +1,13 @@
+{% for item in itemlist %}
+    <p>{{ f }}</p>
+    <div id="record{{item.id}}">
+        <button type="button" id="pencil{{item.id}}" data-toggle="modal" data-target="#myModal" class="btn btn-default btn-xs">
+            <span aria-hidden="true" class="glyphicon glyphicon-pencil"></span>
+        </button>
+        <button type="button" id="remove{{item.id}}" class="btn btn-default btn-xs">
+            <span aria-hidden="true" class="glyphicon glyphicon-remove"></span>
+        </button>
+        <span class="pencil{{item.id}}"> {{item.message}}</span>
+        <p></p></div>
+{% endfor %}
+<script src="./javascripts/buttonlist.js"></script>

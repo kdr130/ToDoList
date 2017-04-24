@@ -22,10 +22,10 @@ router.get('/todo',function(req,res){
    modelQuery.QueryGet({},function(record){
      if(req.xhr) {
         //console.log('recordTP');
-        res.render('recordTP',{layout:false, itemlist:record});
+        res.render('recordTP.html',{layout:false, itemlist:record});
      } else {
         //console.log('restfulTP');
-        res.render('restfulTP',{itemlist:record});
+        res.render('restfulTP.html', {itemlist:record});
      }
    });
 
@@ -56,9 +56,9 @@ router.get('/todo/:id', function(req, res) {
      var dataset={message:req.params.id}
      modelQuery.QueryGet(dataset,function(record){
       if(req.xhr)
-         res.render('recordTP',{layout:false, itemlist:record});
+         res.render('recordTP.html',{layout:false, itemlist:record});
        else
-         res.render('restfulTP',{itemlist:record});
+         res.render('restfulTP.html',{itemlist:record});
      });
     //res.send('you push a request to read one');
 })
@@ -69,8 +69,8 @@ router.put('/todo/:id', function(req, res) {
      var dataset={id:parseInt(req.params.id),message:req.body.momsg};
      modelUpdate.UpdateSave(dataset,function(record){
 
-         res.render('oneTP',{layout:false,
-                oneid:record.id,onemsg:record.message});
+         res.render('oneTP.html',{layout:false,
+                oneid:record.id, onemsg:record.message});
 
      });
     //res.send('you push a request to put! ' + req.body.moid+req.body.momsg);
