@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+
+{% block header %}<h1>註冊</h1>{% endblock %}
+
+{% block content %}
+
+    <div class="input-group input-group-lg">
+        <input id="username" name="username" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
+        <br>
+        <input id="password" name="password" class="form-control" type= "password" placeholder="Password" aria-describedby="sizing-addon1">
+        <br>
+        <input id="confirmpassword" name="confirmpassword" class="form-control" type= "password" placeholder="Confrim Password" aria-describedby="sizing-addon1">
+    </div>
+    <br>
+    <span>
+        <button onClick="sendData()" class="btn btn-default">確認註冊</button>
+    </span>
+
+    <script>
+        var sendData = function() {
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            var confirmpassword = document.getElementById('confirmpassword').value;
+
+            if ( username && password && confirmpassword) {
+                if ( password === confirmpassword ) {
+                    $.ajax({
+                      url: '/user/registration',
+                      type: 'post',
+                      data: {"username":username, "password": password},
+                    }).done(function(result){
+                      alert(result);
+                    });
+                } else {
+                    alert("密碼與確認密碼不同！");
+                    document.getElementById('password').value = "";
+                    document.getElementById('confirmpassword').value = "";
+                }
+            } else {
+                alert("請確認各欄位皆填寫");
+            }
+        }
+    </script>
+{% endblock%}

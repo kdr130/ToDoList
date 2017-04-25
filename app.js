@@ -30,6 +30,7 @@ app.use('/restful', todoRouter);
 app.use('/restful', express.static(__dirname+'/public'));
 
 app.use('/user', userRouter);
+app.use('/user', express.static(__dirname+'/public'));
 
 app.set('port', (process.env.PORT || 5000));
 app.listen(app.get('port'), function() {

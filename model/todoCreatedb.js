@@ -62,3 +62,28 @@ var loadData = function(data, callback) {
 }
 
 module.exports.InsertNew = loadData;
+
+module.exports.InsertNewUser = function(data, callback){
+    MongoClient.connect("mongodb://localhost:27017/TodolistDB", function(err, db) {
+        if (err) {
+            throw err;
+        }
+
+        db.collection('User', function(err, collection) {
+            if (err) {
+                throw err;
+            }
+
+            collection.insertMany(data, function(err, res) {
+                if (err) {
+                    throw err;
+                }
+
+                console.log("insert data: " + JSON.stringify(data));
+                console.log("res: " + JSON.stringify(res));
+                callback(res.result.n);
+            })
+
+        });
+    });
+}
