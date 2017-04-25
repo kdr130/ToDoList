@@ -1,7 +1,7 @@
 var MongoClient=require('mongodb').MongoClient;
 
 module.exports.QueryGet=function(data,callback){
-    MongoClient.connect("mongodb://kevin:kevin@ds159670.mlab.com:59670/heroku_h5mzvgnp",function(err,db){
+    MongoClient.connect("mongodb://localhost:27017/TodolistDB",function(err,db){
 
         if(err) throw err;
         db.collection('Todolist',function(err,collection){
