@@ -4,6 +4,7 @@ var todoRouter = require('./routes/todo.js');
 var userRouter = require('./routes/user.js');
 var bodyParser = require( 'body-parser' );
 var nunjucks  = require('nunjucks');
+var session = require('express-session');
 //var dataset=require('./recordset.js');  //資料集...方便測試View流程使用
 
 //set view engine
@@ -21,9 +22,12 @@ app.set("views",__dirname+"/views")
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text());
 
-//app.get('/', function(req, res) {
-//    res.redirect('/restful/todo');
-//});
+app.use(session({
+    secret: 'recommand 128 bytes random string',
+    cookie: { maxAge: 60 * 1000 },
+    resave: true,
+    saveUninitialized: true
+}));
 
 // Apply this router on (/restful)
 app.use('/restful', todoRouter);

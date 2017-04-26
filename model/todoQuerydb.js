@@ -1,18 +1,22 @@
 var MongoClient=require('mongodb').MongoClient;
 
-module.exports.QueryGet = function(data, callback){
+module.exports.QueryGet = function(dataSet, callback){
     MongoClient.connect("mongodb://localhost:27017/TodolistDB",function(err,db){
 
         if(err) throw err;
         db.collection('Todolist',function(err,collection){
-            if(data.message) {
-                collection.find({'message' : {$regex : '.*'+ data.message+ '.*'}}).toArray(function(err,items){
+            if(dataSet.message) {
+                console.log("dataSet.message: " + dataSet.message + ", dataSet.userName: " + dataSet.userName);
+                console.dir(dataSet);
+
+                collection.find({'userName': dataSet.userName, 'message' : {$regex : '.*'+ dataSet.message+ '.*'}}).toArray(function(err,items){
                   if(err) throw err;
                     //console.log('QueryGet: ' + JSON.stringify(items));
                     callback(items);
                 });
             } else {
-                collection.find({}).toArray(function(err,items){
+                //console.log("dataSet.userName: " + dataSet.userName);
+                collection.find({'userName': dataSet.userName}).toArray(function(err,items){
                     if(err) throw err;
                     //console.log('QueryGet: ' + JSON.stringify(items));
                     callback(items);

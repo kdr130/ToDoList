@@ -30,7 +30,7 @@ var loadData = function(data, callback) {
               maxID++;
 
               //把傳進來的data，變成一個新的dataset，給insertMany
-              dataSet.push({id:maxID++, message:data.message});
+              dataSet.push({id:maxID++, userName: data.userName, message:data.message});
 
 
               // 加入資料
@@ -48,7 +48,7 @@ var loadData = function(data, callback) {
   });
 }
 
-module.exports.InsertNew = loadData;
+module.exports.InsertNewTodo = loadData;
 
 module.exports.InsertNewUser = function(data, callback){
     MongoClient.connect("mongodb://localhost:27017/TodolistDB", function(err, db) {

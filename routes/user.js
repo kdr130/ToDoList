@@ -4,7 +4,11 @@ var modelQuery = require('../model/todoQuerydb.js');
 var modelCreate = require('../model/todoCreatedb.js');
 
 router.get('/login',function(req,res){
-    res.render('login.html', {});
+    if(req.session.UserName) {
+        res.redirect('../restful/todo');
+    } else {
+        res.render('login.html', {});
+    }
 });
 
 router.post('/login',function(req,res){
@@ -23,7 +27,8 @@ router.post('/login',function(req,res){
                 //console.dir(result);
                 //console.log("result[0].username: " + result[0].username);
                 if (result[0]) {
-                    console.log("")
+                    req.session.UserName = result[0].username;
+                    //console.log(req.session);
                     res.json({success : "true", status : 200});
                 } else {
                     res.json({success : "false", status : 200});
@@ -37,22 +42,28 @@ router.post('/login',function(req,res){
     });
 });
 
+router.get('/logout',function(req,res){
+    req.session.destroy(function(err) {
+        res.redirect('../restful/todo');
+    });
+});
+
 router.get('/registration',function(req,res){
     res.render('registration.html', {});
 });
 
 router.post('/registration',function(req,res){
-    var username = req.body.username;
+    var userName = req.body.username;
     var password = req.body.password;
     //console.log("user registration post: " + username + ", " + password);
 
-    modelQuery.QueryUserName(username, function(result) {
+    modelQuery.QueryUserName(userName, function(result) {
         console.log("result.length: " + result.length);
         if (result.length > 0) {
             // 有資料了，要顯示"更改username"
             res.json({success : "false", status : 200});
         } else {
-            var dataset=[{username:username, password:password}];
+            var dataset=[{username:userName, password:password}];
 
             modelCreate.InsertNewUser(dataset, function(result){
                 console.log(result);

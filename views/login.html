@@ -33,7 +33,9 @@
                 }).done(function(result){
                     console.log("get result: " + result);
                     if ( result.success == "true" ) {
-                        alert("帳號密碼皆正確！");
+                        var url = window.location.protocol + "//" + window.location.host + "/restful/todo";
+                        console.log(url);
+                        window.location = url;
                     } else {
                         alert("帳號或密碼錯誤！");
                     }

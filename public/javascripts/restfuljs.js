@@ -34,9 +34,9 @@ $('#search').on('click',function(){
       //把資料送給後端做處理。
       //這裡寫get ... url:'./restful/todo/fasdfkmkmkoika'
       $.ajax({
-        url: '/restful/todo/'+reqdata.momsg,
+        url: '/restful/todo/' + reqdata.momsg,
         type: 'get'
       }).done(function(result){
-          	   $("#itemset").html(result);
+          $("#itemset").html(result);
       });
 });

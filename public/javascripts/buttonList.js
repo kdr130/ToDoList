@@ -9,12 +9,12 @@ $('#itemset button').bind('click', function(){
     if(/pencil/.test(obj))
     {
         itemid = obj.replace(/pencil/gi,'');
-        var spancs='#itemset span.'+obj;  //這筆按鈕的span 尋找方式字串。
+        var spancs = '#itemset span.'+ obj;  //這筆按鈕的span 尋找方式字串。
 
-        var getmsg=$(spancs).text();　//取得所選的這筆資料。
+        var getmsg = $(spancs).text();　//取得所選的這筆資料。
         $('#myModal').find($('#message-text')).val(getmsg);　//把資料送給對話框裡的textbox
 
-        reqdata={'moid':itemid,'momsg':getmsg}; //把id記錄下來。
+        reqdata = {'moid':itemid, 'momsg':getmsg}; //把id記錄下來。
     }
 
     if(/remove/.test(obj))  //刪除...
@@ -37,8 +37,8 @@ $('#itemset button').bind('click', function(){
 
 //做修改 儲存 button 的處理...
 $('#myModal #saveitem').on('click',function(){
-  var postdata=$('#myModal').find($('#message-text')).val();
-    reqdata.momsg=postdata;  //原先的資料會更改成這個...
+    var postdata=$('#myModal').find($('#message-text')).val();
+    reqdata.momsg = postdata;  //原先的資料會更改成這個...
 
     //把資料送給後端做處理。
     //這裡寫put ... url:'./restful/todo/1'
@@ -47,7 +47,7 @@ $('#myModal #saveitem').on('click',function(){
       type: 'PUT',
       data: reqdata
     }).done(function(result){
-      var oneset='#itemset div#record'+reqdata.moid;
+        var oneset='#itemset div#record' + reqdata.moid;
         $(oneset).html(result); //更新完後，將結果覆蓋原本的div#recode+id
      });
 

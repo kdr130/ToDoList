@@ -16,44 +16,47 @@ router.use(function(req, res, next) {
 */
 
 // READ ALL & FORM (/restful/todo)
-router.get('/todo',function(req,res){
-   //mongodb find all.....
-   //console.log('get /todo');
-   modelQuery.QueryGet({},function(record){
-     if(req.xhr) {
-        //console.log('recordTP');
-        res.render('recordTP.html',{layout:false, itemlist:record});
-     } else {
-        //console.log('restfulTP');
-        res.render('restfulTP.html', {itemlist:record});
-     }
-   });
+router.get('/todo',function(req,res) {
+    if(req.session.UserName) {
+        var dataSet = {userName: req.session.UserName};
+        modelQuery.QueryGet(dataSet, function(record){
+         if(req.xhr) {
+            //console.log('recordTP');
+            res.render('recordTP.html',{layout:false, itemlist:record});
+         } else {
+            //console.log('restfulTP');
+            var data = {itemlist:record};
+            data.UserName = req.session.UserName;
 
+            //console.dir(data);
+
+            res.render('restfulTP.html', data);
+         }
+        });
+    } else {
+        res.render('restfulTP.html');
+    }
 });
 
 // CREATE (/restful/todo)
 router.post('/todo', function(req, res) {
-    // ...
     var data = req.body.momsg;
-    console.log('req.body.momsg: ' + data );
 
     if (/\S/.test(data)) {
         // string is not empty and not just whitespace
-        var dataset={message:data};
+        var dataset = {message: data, userName: req.session.UserName};
 
-        modelCreate.InsertNew(dataset, function(msg){
+        modelCreate.InsertNewTodo(dataset, function(msg){
             return res.redirect('/restful/todo');
         });
     }
 });
 
-// READ (/restful/todo/:id)
-// 這邊要注意的：這裡的id是網址列後的搜尋字串
-// 在用 req.params是根據路由給的參數名稱, 與req.body的不同處!
-// 如果你怕會搞混, 請修改!
-router.get('/todo/:id', function(req, res) {
-    // mongodb find one or all...
-     var dataset={message:req.params.id}
+// READ (/restful/todo/:data)
+router.get('/todo/:data', function(req, res) {
+     // mongodb find one or all...
+
+     var dataset={userName: req.session.UserName, message: req.params.data}
      modelQuery.QueryGet(dataset,function(record){
       if(req.xhr)
          res.render('recordTP.html',{layout:false, itemlist:record});
@@ -65,21 +68,17 @@ router.get('/todo/:id', function(req, res) {
 
 // UPDATE ((/restful/todo/:id))
 router.put('/todo/:id', function(req, res) {
-    // ...
-     var dataset={id:parseInt(req.params.id),message:req.body.momsg};
-     modelUpdate.UpdateSave(dataset,function(record){
-
+     var dataSet = {id:parseInt(req.params.id), message: req.body.momsg, userName: req.session.UserName};
+     modelUpdate.UpdateSave(dataSet,function(record){
          res.render('oneTP.html',{layout:false,
                 oneid:record.id, onemsg:record.message});
 
      });
-    //res.send('you push a request to put! ' + req.body.moid+req.body.momsg);
 });
 
 // DELETE (/restful/todo/:id)
 router.delete('/todo/:id', function(req, res) {
-    // ...
-    var dataset={id:parseInt(req.params.id)}
+    var dataset={id: parseInt(req.params.id), userName: req.session.UserName}
     //console.log(dataset);
     modelRemove.RemoveSave(dataset,function(msg){
          res.send(msg);
