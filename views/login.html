@@ -3,22 +3,46 @@
 {% block header %}<h1>登入</h1>{% endblock %}
 
 {% block content %}
-    <form action="/user/login" method="post">
-        <div class="input-group input-group-lg">
-            <input name="username" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
-            <br>
-            <input name="password" class="form-control" type= "password" placeholder="Password" aria-describedby="sizing-addon1">
-        </div>
-        <br>
-        <span>
-            <button type="submit" class="btn btn-default">Submit</button>
 
-        </span>
-    </form>
+    <div class="input-group input-group-lg">
+        <input id="username" name="username" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
+        <br>
+        <input id="password" name="password" class="form-control" type= "password" placeholder="Password" aria-describedby="sizing-addon1">
+    </div>
+    <br>
+    <span>
+        <button class="btn btn-default" onclick="verity()">Submit</button>
+    </span>
+
 
     <form action="/user/registration" method="get">
         <button type="submit" class="btn btn-default">Register</button>
     </form>
 
+    <script>
+        var verity = function() {
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            if ( username && password) {
+                $.ajax({
+                      url: '/user/login',
+                      type: 'post',
+                      datatype: "json", // expecting JSON to be returned
+                      data: {"username":username, "password": password}
+                }).done(function(result){
+                    console.log("get result: " + result);
+                    if ( result.success == "true" ) {
+                        alert("帳號密碼皆正確！");
+                    } else {
+                        alert("帳號或密碼錯誤！");
+                    }
+
+                });
+            } else {
+                alert("請確認各欄位皆填寫");
+            }
+        }
+    </script>
 
 {% endblock%}

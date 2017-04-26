@@ -25,11 +25,21 @@
             if ( username && password && confirmpassword) {
                 if ( password === confirmpassword ) {
                     $.ajax({
-                      url: '/user/registration',
-                      type: 'post',
-                      data: {"username":username, "password": password},
+                          url: '/user/registration',
+                          type: 'post',
+                          datatype: "json", // expecting JSON to be returned
+                          data: {"username":username, "password": password}
                     }).done(function(result){
-                      alert(result);
+                        if ( result.success == "true" ) {
+                            alert("註冊成功");
+                            window.location = "login";
+                        } else {
+                            alert("請更換 Username");
+                            document.getElementById('username').value = "";
+                            document.getElementById('password').value = "";
+                            document.getElementById('confirmpassword').value = "";
+                        }
+
                     });
                 } else {
                     alert("密碼與確認密碼不同！");

@@ -1,6 +1,6 @@
 var MongoClient=require('mongodb').MongoClient;
 
-module.exports.QueryGet = function(data,callback){
+module.exports.QueryGet = function(data, callback){
     MongoClient.connect("mongodb://localhost:27017/TodolistDB",function(err,db){
 
         if(err) throw err;
@@ -23,16 +23,35 @@ module.exports.QueryGet = function(data,callback){
     });
 }
 
-module.exports.QueryUserName = function(data,callback){
+module.exports.QueryUserName = function(data, callback){
     MongoClient.connect("mongodb://localhost:27017/TodolistDB",function(err,db){
 
         if(err) throw err;
-        db.collection('User',function(err,collection){
-            console.log("data: " + data);
+        db.collection('User',function(err, collection){
+            //console.log("data: " + data);
             if(data) {
-                collection.find({'message' : {$regex : data}}).toArray(function(err,items){
+                collection.find({'username' : data}).toArray(function(err,items){
                   if(err) throw err;
-                    console.log('QueryUserName: ' + JSON.stringify(items));
+                    //console.log('QueryUserName: ' + JSON.stringify(items));
+                    callback(items);
+                });
+            }
+        });
+
+    });
+}
+
+module.exports.QueryUserNameAndPassWord = function(dataSet, callback){
+    MongoClient.connect("mongodb://localhost:27017/TodolistDB",function(err, db){
+
+        if(err) throw err;
+
+        db.collection('User',function(err, collection){
+            //console.dir(dataSet);
+            if(dataSet) {
+                collection.find({'username' :dataSet.username, 'password' : dataSet.password}).toArray(function(err,items){
+                  if(err) throw err;
+                    //console.log('QueryUserName: ' + JSON.stringify(items));
                     callback(items);
                 });
             }

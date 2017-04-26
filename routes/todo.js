@@ -39,7 +39,7 @@ router.post('/todo', function(req, res) {
 
     if (/\S/.test(data)) {
         // string is not empty and not just whitespace
-        var dataset=[{message:data}];
+        var dataset={message:data};
 
         modelCreate.InsertNew(dataset, function(msg){
             return res.redirect('/restful/todo');

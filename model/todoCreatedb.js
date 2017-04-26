@@ -30,9 +30,8 @@ var loadData = function(data, callback) {
               maxID++;
 
               //把傳進來的data，變成一個新的dataset，給insertMany
-              data.map(function(obj){
-                 dataSet.push({id:maxID++, message:obj.message});
-              });
+              dataSet.push({id:maxID++, message:data.message});
+
 
               // 加入資料
               collection.insertMany(dataSet, function(err, res) {
@@ -45,18 +44,6 @@ var loadData = function(data, callback) {
                   callback(res.result.n);
               });
           });
-
-          /*
-          collection.insertMany(data, function(err, res) {
-              if (err) {
-                  throw err;
-              }
-
-              console.log("insert data: " + JSON.stringify(data));
-              console.log("res: " + JSON.stringify(res));
-              callback(res.result.n);
-          })
-          */
       });
   });
 }
